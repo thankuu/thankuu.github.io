@@ -1,38 +1,28 @@
 ---
 title: Hello World
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
-## Quick Start
+##【before】
+快毕业了找工作才想到搭建自己的BLOG（/捂脸\）
+但是，好事情无论什么时候开始都不算晚 :p
 
-### Create a new post
+---
 
-``` bash
-$ hexo new "My New Post"
-```
+##【after】
+希望自己能够把这个习惯好好坚持下去
+用一句话能够解释我目前的状况：
 
-More info: [Writing](https://hexo.io/docs/writing.html)
+> 不要在最能吃苦的年纪选择了安逸
+> 
+> :)
 
-### Run server
+---
 
-``` bash
-$ hexo server
-```
+第一篇博文 by thankuu
 
-More info: [Server](https://hexo.io/docs/server.html)
+2016年3月9日
 
-### Generate static files
 
-``` bash
-$ hexo generate
-```
 
-More info: [Generating](https://hexo.io/docs/generating.html)
 
-### Deploy to remote sites
 
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/deployment.html)
