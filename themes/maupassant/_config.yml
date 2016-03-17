@@ -18,12 +18,16 @@ menu:
   - page: archive
     directory: archives/
     icon: fa-archive
+  - page: Resume
+    directory: /Resume
+    icon: fa-book
   - page: about
     directory: about/
     icon: fa-user
   - page: rss
     directory: atom.xml
     icon: fa-rss
+
 
 widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts, rencent_comments and links.
   - search
@@ -34,12 +38,11 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
   - links
 
 links:
-  - title: site-name1
-    url: http://www.example1.com/
-  - title: site-name2
-    url: http://www.example2.com/
-  - title: site-name3
-    url: http://www.example3.com/
+  - title: thankuu'blog
+    url: http://www.thankuu.me/
+  - title: thankuu'github
+    url: http://www.github.com/thankuu
+
 
 # Static files
 js: js
