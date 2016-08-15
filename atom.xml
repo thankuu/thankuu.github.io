@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Thankuu</title>
+  <subtitle>Life is coding,coding for my life!</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://thankuu.me/"/>
+  <updated>2016-08-15T06:55:09.000Z</updated>
+  <id>http://thankuu.me/</id>
+  
+  <author>
+    <name>Thankuu (Retro)</name>
+    <email>thankuu.me@gmail.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>搭建Django应用（一）</title>
+    <link href="http://thankuu.me/2016/08/15/%E6%90%AD%E5%BB%BADjango%E5%BA%94%E7%94%A8%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://thankuu.me/2016/08/15/搭建Django应用（一）/</id>
+    <published>2016-08-15T06:55:09.000Z</published>
+    <updated>2016-08-15T06:55:09.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;python安装&quot;&gt;&lt;a href=&quot;#python安装&quot; class=&quot;headerlink&quot; title=&quot;python安装&quot;&gt;&lt;/a&gt;python安装&lt;/h2&gt;&lt;p&gt;作为一个Python Web框架，Django需要Python 。 它适用Python 2.7、3.2、3.3和3.4。osx自带了python2.7版本，如果需要安装更高版本的python，可以通过&lt;code&gt;brew&lt;/code&gt;安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ brew install python3
+$ python3 -V
+Python 3.5.1   显示版本号表明安装成功
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;或者通过安装&lt;code&gt;pyenv&lt;/code&gt;来在多版本中来回切换&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ brew install pyenv
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;更多使用方法可以参考：&lt;a href=&quot;http://seisman.info/python-pyenv.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://seisman.info/python-pyenv.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Django安装&quot;&gt;&lt;a href=&quot;#Django安装&quot; class=&quot;headerlink&quot; title=&quot;Django安装&quot;&gt;&lt;/a&gt;Django安装&lt;/h2&gt;&lt;p&gt;Django要通过pip安装，pip是python中的一个包管理工具，可以通过它安装python的软件包，mac系统自带的python已经安装好了pip，可以直接通过他进行安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$pip install Django
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果安装了多版本，需要使用pip可以参考官方文档：&lt;a href=&quot;https://docs.python.org/3/installing/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://docs.python.org/3/installing/&lt;/a&gt;&lt;br&gt;使用时带上python版本号执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$pip3 install Django
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果之前安装了Django就需要卸载之前版本，再重新安装。&lt;/p&gt;
+&lt;h2 id=&quot;验证&quot;&gt;&lt;a href=&quot;#验证&quot; class=&quot;headerlink&quot; title=&quot;验证&quot;&gt;&lt;/a&gt;验证&lt;/h2&gt;&lt;p&gt;安装完成以后可以通过执行python，运行以下命令来验证安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; import django
+&amp;gt;&amp;gt;&amp;gt; print(django.get_version())
+1.8
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;看到返回版本号证明你的Django已经安装成功了。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;python安装&quot;&gt;&lt;a href=&quot;#python安装&quot; class=&quot;headerlink&quot; title=&quot;python安装&quot;&gt;&lt;/a&gt;python安装&lt;/h2&gt;&lt;p&gt;作为一个Python Web框架，Django需要Python 。 它适用Python 2.
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://thankuu.me/tags/python/"/>
+    
+      <category term="Django" scheme="http://thankuu.me/tags/Django/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHP安全 - SQL防注入</title>
+    <link href="http://thankuu.me/2016/08/15/PHP%E5%AE%89%E5%85%A8%20-%20SQL%E9%98%B2%E6%B3%A8%E5%85%A5/"/>
+    <id>http://thankuu.me/2016/08/15/PHP安全 - SQL防注入/</id>
+    <published>2016-08-15T06:55:09.000Z</published>
+    <updated>2016-08-15T06:55:09.000Z</updated>
+    
+    <content type="html">&lt;h3 id=&quot;1、表单校验&quot;&gt;&lt;a href=&quot;#1、表单校验&quot; class=&quot;headerlink&quot; title=&quot;1、表单校验&quot;&gt;&lt;/a&gt;1、表单校验&lt;/h3&gt;&lt;p&gt;这部分其实和安全关系不大，个人理解表单校验只是为了防止用户在前端直接调用接口来绕过前端的表单验证。而通常将针对获取到的表单进行校验，这部分功能目前一般在所有框架中都具备有，以&lt;code&gt;CodeIgniter&lt;/code&gt;举例,官方给的示例是：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public function index()
+{
+    $this-&amp;gt;load-&amp;gt;helper(array(&amp;apos;form&amp;apos;, &amp;apos;url&amp;apos;));
+
+    $this-&amp;gt;load-&amp;gt;library(&amp;apos;form_validation&amp;apos;);
+
+    $this-&amp;gt;form_validation-&amp;gt;set_rules(&amp;apos;username&amp;apos;, &amp;apos;Username&amp;apos;, &amp;apos;callback_username_check&amp;apos;);
+
+$this-&amp;gt;form_validation-&amp;gt;set_rules(&amp;apos;password&amp;apos;, &amp;apos;Password&amp;apos;, &amp;apos;required&amp;apos;);
+
+    $this-&amp;gt;form_validation-&amp;gt;set_rules(&amp;apos;passconf&amp;apos;, &amp;apos;Password Confirmation&amp;apos;, &amp;apos;required&amp;apos;);
+
+$this-&amp;gt;form_validation-&amp;gt;set_rules(&amp;apos;email&amp;apos;, &amp;apos;Email&amp;apos;, &amp;apos;required|is_unique[users.email]&amp;apos;);
+
+    if ($this-&amp;gt;form_validation-&amp;gt;run() == FALSE)
+{
+    $this-&amp;gt;load-&amp;gt;view(&amp;apos;myform&amp;apos;);
+}
+else
+{
+    $this-&amp;gt;load-&amp;gt;view(&amp;apos;formsuccess&amp;apos;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这种方式的目的就是将前端传过来的数据进行初步校验，校验的方式一般有特殊校验（邮箱，密码，日期）和一般校验（是否必填）等等，通过这个方式可以对前端的数据进行格式以及类型的初步校验，检验其变量格式和类型，（预格式化数据）是否包含HTML代码等，对数据进行过滤。&lt;/p&gt;
+&lt;h3 id=&quot;2、过滤特殊符号&quot;&gt;&lt;a href=&quot;#2、过滤特殊符号&quot; class=&quot;headerlink&quot; title=&quot;2、过滤特殊符号&quot;&gt;&lt;/a&gt;2、过滤特殊符号&lt;/h3&gt;&lt;p&gt;在所有攻击中，可以通过对表单数据过滤特殊符号&lt;code&gt;\ , &amp;#39; , &amp;quot;&lt;/code&gt;来预防SQL注入攻击。假设我们可以通过这样一个链接&lt;code&gt;http://dev.com/index.php?user_name=thankuu&lt;/code&gt;向服务器请求这个用户的信息，如果&lt;code&gt;username&lt;/code&gt;是合法的，那么服务器会执行这样的SQL语句：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT uid,user_info FROM table.user WHERE username=`thankuu`;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;但是，如果我们在向服务器请求的内容中加入这样的内容：&lt;code&gt;thankuu&amp;#39; UNION SELECT username,password FROM table.user--&lt;/code&gt;，那么服务器最终会执行的SQL语句将会变为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT uid,user_info FROM table.user WHERE username=`thankuu` UNION SELECT username,password FROM table.user-- ;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;执行的结果就是将所有用户的用户名和对应的密码全部输出返回。同理，我们也可以使用类似的方法跳过网站的用户密码验证，只用知道正确的用户名就可以登录网站。&lt;/p&gt;
+&lt;p&gt;为了防范这种方式的注入以及插入&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;脚本代码，我们可以在php代码中使用&lt;code&gt;addslashes&lt;/code&gt;函数，将以上特殊符号进行转意，并将原有SQL语句：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT * FROM table WHERE var={$var};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;替换成&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT * FROM table WHERE var=&amp;apos;{$var}&amp;apos;;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们的SQL语句中带有单引号，所以要想用户执行注入时就必须反引号，但是我们在接受数据时，将原有数据中的特殊符号进行了转意，那么用户插入的特殊符号将会转意成&lt;code&gt;\\,\&amp;#39;,\&amp;quot;&lt;/code&gt;,，所以想要执行的注入攻击就会失效。&lt;/p&gt;
+&lt;h3 id=&quot;3、绑定变量，使用预编译语句&quot;&gt;&lt;a href=&quot;#3、绑定变量，使用预编译语句&quot; class=&quot;headerlink&quot; title=&quot;3、绑定变量，使用预编译语句&quot;&gt;&lt;/a&gt;3、绑定变量，使用预编译语句&lt;/h3&gt;&lt;p&gt;MySQL的mysqli驱动提供了预编译语句的支持，不同的程序语言，都分别有使用预编译语句的方法，现代PHP框架中，使用ORM（关系数据模型）都基本具备了预编译。CodeIgniter的AR防注入能力还是很不错的,使用ORM可以有效防止注入，如果执行的SQL较为复杂，需要书写原生SQL时可以采用参数绑定的方法：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$sql = &amp;quot;SELECT * FROM table WHERE var=? and var2=?&amp;quot;;
+
+$result = $this-&amp;gt;db-&amp;gt;query($sql,array($array1,$array2))-&amp;gt;result_array();
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;更多使用方法可以参考官方使用手册。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1、表单校验&quot;&gt;&lt;a href=&quot;#1、表单校验&quot; class=&quot;headerlink&quot; title=&quot;1、表单校验&quot;&gt;&lt;/a&gt;1、表单校验&lt;/h3&gt;&lt;p&gt;这部分其实和安全关系不大，个人理解表单校验只是为了防止用户在前端直接调用接口来绕过前端的表单验证。而通常将针
+    
+    </summary>
+    
+    
+      <category term="php" scheme="http://thankuu.me/tags/php/"/>
+    
+      <category term="安全" scheme="http://thankuu.me/tags/%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="CodeIgniter" scheme="http://thankuu.me/tags/CodeIgniter/"/>
+    
+  </entry>
+  
+</feed>
