@@ -3,12 +3,19 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Thankuu'Blog
-subtitle: 不要在最能吃苦的年纪选择了安逸
-description: 吴胜凯的个人博客。Thankuu'Blog with what he read&learn.
-author: 吴胜凯,Thankuu
+title: Thankuu
+subtitle: Life is coding,coding for my life!
+description: 闲来没事写几笔，活在当下的小市民。
+author: Thankuu (Retro)
 language: zh-Hans
 timezone:
+
+# custom Site settings
+# more detail check out docs
+SEOTitle: Thankuu's blog
+header-img: /img/post-default.jpg
+email: thankuu.me@gmail.com
+keyword: # seo key words
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -39,9 +46,14 @@ relative_link: false
 future: true
 highlight:
   enable: true
-  line_number: true
+  line_number: false
   auto_detect: false
   tab_replace:
+# Build settings
+anchorjs: false                        # if you want to customize anchor. check out line:181 of `post.html`
+
+post-default-img: /img/post-default.jpg
+post-default-img-mobile: /img/post-default-min.jpg #移动端显示的图片
 
 # Category & Tag
 default_category: uncategorized
@@ -63,7 +75,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: maupassant
+theme: Anisina
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -72,4 +84,31 @@ deploy:
   repo: git@github.com:thankuu/thankuu.github.io.git
   branch: master
 # Disqus setting
-disqus_shortname: thankuu
+disqus_username:
+# Duoshuo settings
+duoshuo_username:  thankuu # 你的多说帐号
+# Share component is depend on Comment so we can NOT use share only.
+duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+
+# Featured Tags
+featured-tags: true                     # whether or not using Feature-Tags
+featured-condition-size: 6              # A tag will be featured if the size of it is more than this condition value
+
+#favicon
+favicon: /favicon.ico
+# Sidebar settings
+sidebar: true
+sidebar-about-description: "年少无知，无勇有谋"
+sidebar-avatar: /img/avatar-hux.jpg
+#friend setting
+# 友链, 请务必按以下格式书写
+# friends: [
+#     {
+#         title: "haojen's Blog",
+#         href: "https://haojen.github.io/"
+#     },
+#     {
+#         title: "thankuu(Retro)'s Blog",
+#         href: "http://thankuu.me"
+#     }
+# ]
