@@ -7,16 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="闲来没事写几笔，活在当下的小市民。">
-    <meta name="keyword"  content="null">
+    <meta name="keyword" content="null">
     <meta name="theme-color" content="#600090">
     <meta name="msapplication-navbutton-color" content="#600090">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#60090">
-    <link rel="shortcut icon" href="/img/coffee.png">
-
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Thankuu" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-          搭建Django应用（一）｜Thankuu&#39;s blog
+        搭建Django应用（一）｜Thankuu&#39;s blog
         
     </title>
 
@@ -30,30 +32,16 @@
 
     <!-- Pygments Github CSS -->
     <link rel="stylesheet" href="/css/syntax.css">
-
-    <!-- Custom Fonts -->
-    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- ga & ba script hoook -->
-    <script></script>
 </head>
 
 <style>
 
-    header.intro-header{
+    header.intro-header {
         background-image: url('/img/post-default.jpg')
     }
 </style>
 <!-- hack iOS CSS :active style -->
-<body ontouchstart="">
+<body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
@@ -66,7 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand animated pulse" href="/">
                 <span class="brand-logo">
                     Thankuu
                 </span>
@@ -91,7 +79,7 @@
                     
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/Tags/">Tags</a>
                         </li>
                         
                     
@@ -106,7 +94,7 @@
     // Drop Bootstarp low-performance Navbar
     // Use customize navbar with high-quality material design animation
     // in high-perf jank-free CSS3 implementation
-    var $body   = document.body;
+//    var $body   = document.body;
     var $toggle = document.querySelector('.navbar-toggle');
     var $navbar = document.querySelector('#huxblog_navbar');
     var $collapse = document.querySelector('.navbar-collapse');
@@ -131,24 +119,25 @@
     }
 </script>
 
-    <!-- Main Content -->
-    
-<!-- Image to hack wechat -->
+<!-- Main Content -->
+
 <!--only post-->
 
-    
-        <img class="wechat-title-img" src="/img/post-default.jpg">
-    
+
+<img class="wechat-title-img"
+     src="/img/post-default.jpg">
+
 
 <style>
-
-    header.intro-header{
+    
+    header.intro-header {
         background-image: url('/img/post-default.jpg')
     }
 
+    
 </style>
 
-<header class="intro-header" >
+<header class="intro-header">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
@@ -157,15 +146,17 @@
                     
                     <span class="meta">
                          作者 Thankuu (Retro)
-                         <span>
+                        <span>
                           日期 2016-08-15
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#python" title="python">python</a>
+                        <a class="tag" href="/tags/#python"
+                           title="python">python</a>
                         
-                        <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                        <a class="tag" href="/tags/#Django"
+                           title="Django">Django</a>
                         
                     </div>
                 </div>
@@ -183,60 +174,68 @@
 <article>
     <div class="container">
         <div class="row">
-                <!-- Post Container -->
+            <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-
-                <h2 id="python安装"><a href="#python安装" class="headerlink" title="python安装"></a>python安装</h2><p>作为一个Python Web框架，Django需要Python 。 它适用Python 2.7、3.2、3.3和3.4。osx自带了python2.7版本，如果需要安装更高版本的python，可以通过<code>brew</code>安装：</p>
-<pre><code>$ brew install python3
-$ python3 -V
-Python 3.5.1   显示版本号表明安装成功
-</code></pre><p>或者通过安装<code>pyenv</code>来在多版本中来回切换</p>
-<pre><code>$ brew install pyenv
-</code></pre><p>更多使用方法可以参考：<a href="http://seisman.info/python-pyenv.html" target="_blank" rel="external">http://seisman.info/python-pyenv.html</a></p>
-<h2 id="Django安装"><a href="#Django安装" class="headerlink" title="Django安装"></a>Django安装</h2><p>Django要通过pip安装，pip是python中的一个包管理工具，可以通过它安装python的软件包，mac系统自带的python已经安装好了pip，可以直接通过他进行安装：</p>
+                <h2>python安装</h2>
+<p>作为一个Python Web框架，Django需要Python 。 它适用Python 2.7、3.2、3.3和3.4。osx自带了python2.7版本，如果需要安装更高版本的python，可以通过<code>brew</code>安装：</p>
+<pre><code>    $ brew install python3
+    $ python3 -V
+    Python 3.5.1   显示版本号表明安装成功
+</code></pre>
+<p>或者通过安装<code>pyenv</code>来在多版本中来回切换</p>
+<pre><code>    $ brew install pyenv
+</code></pre>
+<p>更多使用方法可以参考：http://seisman.info/python-pyenv.html</p>
+<h2>Django安装</h2>
+<p>Django要通过pip安装，pip是python中的一个包管理工具，可以通过它安装python的软件包，mac系统自带的python已经安装好了pip，可以直接通过他进行安装：</p>
 <pre><code>$pip install Django
-</code></pre><p>如果安装了多版本，需要使用pip可以参考官方文档：<a href="https://docs.python.org/3/installing/" target="_blank" rel="external">https://docs.python.org/3/installing/</a><br>使用时带上python版本号执行：</p>
+</code></pre>
+<p>如果安装了多版本，需要使用pip可以参考官方文档：https://docs.python.org/3/installing/
+使用时带上python版本号执行：</p>
 <pre><code>$pip3 install Django
-</code></pre><p>如果之前安装了Django就需要卸载之前版本，再重新安装。</p>
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>安装完成以后可以通过执行python，运行以下命令来验证安装：</p>
+</code></pre>
+<p>如果之前安装了Django就需要卸载之前版本，再重新安装。</p>
+<h2>验证</h2>
+<p>安装完成以后可以通过执行python，运行以下命令来验证安装：</p>
 <pre><code>&gt;&gt;&gt; import django
 &gt;&gt;&gt; print(django.get_version())
 1.8
-</code></pre><p>看到返回版本号证明你的Django已经安装成功了。</p>
-
+</code></pre>
+<p>看到返回版本号证明你的Django已经安装成功了。</p>
 
                 <hr>
-
                 
                 <!-- 多说 Share start -->
                 <div class="ds-share"
-                    style="text-align: right"
-                    data-thread-key="2016/08/15/搭建Django应用（一）/"
-                    data-title="搭建Django应用（一）"
-                    data-url="http://thankuu.me/2016/08/15/搭建Django应用（一）/"
-                    data-images=""
-                    data-content="python安装作为一个Python Web框架，Django需要Python 。 它适用Py... | Thankuu&#39;s blog " >
+                     style="text-align: right"
+                     data-thread-key="2016/08/15/搭建Django应用（一）/"
+                     data-title="搭建Django应用（一）"
+                     data-url="http://thankuu.me/2016/08/15/搭建Django应用（一）/"
+                     data-images=""
+                     data-content="python安装
+作为一个Python Web框架，Django需要Python 。 它适用P... | Thankuu&#39;s blog ">
                     <div class="ds-share-inline">
-                      <ul  class="ds-share-icons-16">
-                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
-                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
-                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
-                      </ul>
-                      <div class="ds-share-icons-more">
-                      </div>
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
                     </div>
-                <hr>
+                    <hr>
                 </div>
                 <!-- 多说 Share end-->
                 
 
                 <ul class="pager">
                     
+                    <li class="previous">
+                        <a href="/ 2016/08/15/PHP安全 - SQL防注入/" data-toggle="tooltip" data-placement="top"
+                           title="PHP安全 - SQL防注入">&larr; Previous Post</a>
+                    </li>
                     
-                        <li class="next">
-                            <a href="/2016/08/15/PHP安全 - SQL防注入/" data-toggle="tooltip" data-placement="top" title="PHP安全 - SQL防注入">Next Post &rarr;</a>
-                        </li>
                     
                 </ul>
 
@@ -244,9 +243,9 @@ Python 3.5.1   显示版本号表明安装成功
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="2016/08/15/搭建Django应用（一）/"
-                        data-title="搭建Django应用（一）"
-                        data-url="http://thankuu.me/2016/08/15/搭建Django应用（一）/" >
+                         data-thread-key="2016/08/15/搭建Django应用（一）/"
+                         data-title="搭建Django应用（一）"
+                         data-url="http://thankuu.me/2016/08/15/搭建Django应用（一）/">
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -256,9 +255,9 @@ Python 3.5.1   显示版本号表明安装成功
 
             </div>
 
-            <div class="hidden-xs col-sm-3 toc-col" >
+            <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python安装"><span class="toc-text">python安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Django安装"><span class="toc-text">Django安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证"><span class="toc-text">验证</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">python安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">Django安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">验证</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -275,20 +274,31 @@ Python 3.5.1   显示版本号表明安装成功
                 
                 <section>
                     <!-- no hr -->
-                <h5 class="text-center">
-                    <a href="/tags/">FEATURED TAGS</a>
-                </h5>
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#python" title="python">python</a>
+                        <a class="tag" href="/tags/#python"
+                           title="python">python</a>
                         
-                          <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                        <a class="tag" href="/tags/#Django"
+                           title="Django">Django</a>
                         
                     </div>
                 </section>
                 
 
                 <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://haojen.github.io/">haojen&#39;s Blog</a></li>
+                        
+                    </ul>
+                </div>
                 
             </div>
         </div>
@@ -303,14 +313,15 @@ Python 3.5.1   显示版本号表明安装成功
     var _user = 'thankuu';
 
     // duoshuo comment query.
-    var duoshuoQuery = {short_name: _user };
-    (function() {
+    var duoshuoQuery = {short_name: _user};
+    (function () {
         var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
+        ds.type = 'text/javascript';
+        ds.async = true;
         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
         ds.charset = 'UTF-8';
         (document.getElementsByTagName('head')[0]
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
     })();
 </script>
 <!-- 多说公共JS代码 end -->
@@ -319,15 +330,12 @@ Python 3.5.1   显示版本号表明安装成功
 
 
 
-
-
-    <!-- Footer -->
-    <!-- Footer -->
+<!-- Footer -->
+<!-- Footer -->
 <footer>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
-                <span class="text-muted"style="font-size: 14px">双击导航条返回顶部</span>
                 <br>
                 <ul class="list-inline text-center">
                 
@@ -335,9 +343,27 @@ Python 3.5.1   显示版本号表明安装成功
                 
 
                 
+                    <li>
+                        <a target="_blank" href="http://weibo.com/孤独深邃症患者">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
 
                 
 
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/thankuu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -364,7 +390,6 @@ Python 3.5.1   显示版本号表明安装成功
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 
 <!-- async load function -->
 <script>
@@ -394,7 +419,7 @@ Python 3.5.1   显示版本号表明安装成功
 
 <!--fastClick.js -->
 <script>
-    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })
@@ -419,8 +444,8 @@ Python 3.5.1   显示版本号表明安装成功
 
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-    <!--wechat title img-->
-    <img class="wechat-title-img" src="/img/avatar-hux.jpg">
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar-hux.jpg">
 </body>
 
 </html>
