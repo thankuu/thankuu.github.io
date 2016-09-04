@@ -7,16 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="闲来没事写几笔，活在当下的小市民。">
-    <meta name="keyword"  content="null">
+    <meta name="keyword" content="null">
     <meta name="theme-color" content="#600090">
     <meta name="msapplication-navbutton-color" content="#600090">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#60090">
-    <link rel="shortcut icon" href="/img/coffee.png">
-
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="alternate" type="application/atom+xml" title="Thankuu" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-          Thankuu&#39;s blog
+        Thankuu&#39;s blog
         
     </title>
 
@@ -30,30 +32,16 @@
 
     <!-- Pygments Github CSS -->
     <link rel="stylesheet" href="/css/syntax.css">
-
-    <!-- Custom Fonts -->
-    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- ga & ba script hoook -->
-    <script></script>
 </head>
 
 <style>
 
-    header.intro-header{
+    header.intro-header {
         background-image: url('/img/post-default.jpg')
     }
 </style>
 <!-- hack iOS CSS :active style -->
-<body ontouchstart="">
+<body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
 " data-ishome = "true" >
@@ -66,7 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand animated pulse" href="/">
                 <span class="brand-logo">
                     Thankuu
                 </span>
@@ -91,7 +79,7 @@
                     
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/Tags/">Tags</a>
                         </li>
                         
                     
@@ -106,7 +94,7 @@
     // Drop Bootstarp low-performance Navbar
     // Use customize navbar with high-quality material design animation
     // in high-perf jank-free CSS3 implementation
-    var $body   = document.body;
+//    var $body   = document.body;
     var $toggle = document.querySelector('.navbar-toggle');
     var $navbar = document.querySelector('#huxblog_navbar');
     var $collapse = document.querySelector('.navbar-collapse');
@@ -131,120 +119,138 @@
     }
 </script>
 
-    <!-- Main Content -->
-    
+<!-- Main Content -->
 
-    <style>
 
-        .custom-haojen-container .post-preview:nth-of-type(1),
-        .custom-haojen-container .post-preview-poetry:nth-of-type(1){
-            text-align: center;
-            background-repeat: no-repeat;
-            border-radius: 3px;
-            background-size: cover;
-            padding:0;
-            height: 300px;
-            display: table;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.16);
+<style>
+
+    .custom-haojen-container .post-preview:nth-of-type(1),
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) {
+        text-align: center;
+        background-repeat: no-repeat;
+        border-radius: 3px;
+        background-size: cover;
+        padding: 0;
+        height: 300px;
+        display: table;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.16);
+    }
+
+    /*去掉诗歌的背景图片*/
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) {
+        background-image: none !important;
+        background-color: rgba(255, 248, 220, 0.5);
+    }
+
+    .custom-haojen-container .post-preview:nth-child(1) h2,
+    .custom-haojen-container .post-preview:nth-child(1) .post-meta,
+    .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
+        text-shadow: 0 0 40px rgba(0, 0, 0, 1);
+        letter-spacing: 1px;
+        color: #fff;
+        margin-top: 0;
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+
+    .custom-haojen-container .post-preview:nth-child(1) .post-meta {
+        font-size: .9em;
+        font-weight: 300;
+        margin-top: 0;
+    }
+
+    .custom-haojen-container .post-preview-poetry:nth-child(1) .post-subtitle {
+        letter-spacing: 6px;
+        font-size: 18px;
+        font-family: unset;
+        font-weight: 400;
+        color: rgba(0, 0, 0, .75)
+    }
+
+    /*不显示摘要*/
+    .custom-haojen-container .post-preview:nth-child(1) .post-content-preview {
+        display: none
+    }
+
+    /*只第一个显示背景图片*/
+    .custom-haojen-container .post-preview:not(:nth-child(1)) {
+        background-image: none !important;
+    }
+
+    /*第一个分界线去掉*/
+    .custom-haojen-container hr:nth-of-type(1) {
+        display: none;
+    }
+
+    /*主题*/
+    .custom-haojen-container .post-preview:nth-of-type(1) > a {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    /*诗词标题*/
+    .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+        font-size: 35px;
+        font-family: STKaiti;
+        color: rgba(0, 0, 0, .8);
+    }
+
+    .custom-haojen-container .post-preview-poetry:nth-of-type(1) .post-meta {
+        color: #0e2231;
+    }
+
+    @media (max-width: 768px) {
+        .custom-haojen-container .post-preview:nth-child(1) {
+            height: 240px;
         }
-        /*去掉诗歌的背景图片*/
-        .custom-haojen-container .post-preview-poetry:nth-of-type(1){
-            background-image: none!important;
-            background-color: rgba(255, 248, 220, 0.5);
+
+        .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+            font-size: 28px !important;
+            margin-top: 0;
         }
 
-        .custom-haojen-container .post-preview:nth-child(1) h2,
-        .custom-haojen-container .post-preview:nth-child(1) .post-meta,
         .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
-            text-shadow: 0 0 40px rgba(0, 0, 0, 1);
-            letter-spacing: 1px;
-            color: #fff;
-            font-family: unset;
-            font-weight: 500;
-            margin-top: 0;
-            padding-left: 60px;
-            padding-right: 60px;
-        }
-
-        .custom-haojen-container .post-preview:nth-child(1) .post-meta{
-            font-size: .9em;
-            font-weight: 300;
-            margin-top: 0;
-        }
-        .custom-haojen-container .post-preview-poetry:nth-child(1) .post-subtitle{
-            letter-spacing: 6px;
             font-size: 18px;
-            font-family: unset;
             font-weight: 400;
-            color: rgba(0,0,0,.75)
-        }
-        /*不显示摘要*/
-        .custom-haojen-container .post-preview:nth-child(1) .post-content-preview{display: none}
-        /*只第一个显示背景图片*/
-        .custom-haojen-container .post-preview:not(:nth-child(1)){
-            background-image: none!important;
-        }
-        /*第一个分界线去掉*/
-        .custom-haojen-container hr:nth-of-type(1){
-            display: none;
-        }
-        /*主题*/
-        .custom-haojen-container .post-preview:nth-of-type(1)>a{
-            display: table-cell;
-            vertical-align: middle;
-        }
-        /*诗词标题*/
-        .custom-haojen-container .post-preview-poetry:nth-child(1) h2{
-            font-size: 35px;
-            font-family:  STKaiti;
-            color: rgba(0,0,0,.8);
-        }
-        .custom-haojen-container .post-preview-poetry:nth-of-type(1) .post-meta{
-            color: #0e2231;
-        }
-        @media (max-width: 768px)  {
-            .custom-haojen-container .post-preview:nth-child(1) {
-                height: 240px;
-            }
-            .custom-haojen-container .post-preview-poetry:nth-child(1) h2{
-                font-size: 28px!important;
-                margin-top: 0;
-            }
-            .custom-haojen-container .post-preview:nth-child(1) .post-subtitle{
-                font-size: 18px;
-                font-weight:400;
-                padding-left: 0;padding-right: 0;
-            }
-            .custom-haojen-container .post-preview:nth-of-type(1) > a{padding: 20px}
+            padding-left: 0;
+            padding-right: 0;
         }
 
-        /*手机屏幕*/
-        @media (max-width: 400px){
-            .custom-haojen-container .post-preview:nth-child(1){
-                height: 195px;
-            }
-            .custom-haojen-container .post-preview-poetry:nth-child(1) h2{
-                font-size: 20px!important;
-            }
-            .custom-haojen-container .post-preview:nth-child(1) .post-subtitle{
-                font-size: 16px;
-            }
-            .custom-haojen-container .post-preview:nth-child(1) a{
-                padding: 30px 20px;
-            }
+        .custom-haojen-container .post-preview:nth-of-type(1) > a {
+            padding: 20px
         }
-    </style>
+    }
+
+    /*手机屏幕*/
+    @media (max-width: 400px) {
+        .custom-haojen-container .post-preview:nth-child(1) {
+            height: 195px;
+        }
+
+        .custom-haojen-container .post-preview-poetry:nth-child(1) h2 {
+            font-size: 20px !important;
+        }
+
+        .custom-haojen-container .post-preview:nth-child(1) .post-subtitle {
+            font-size: 16px;
+        }
+
+        .custom-haojen-container .post-preview:nth-child(1) a {
+            padding: 30px 20px;
+        }
+    }
+</style>
 
 <!-- Page Header -->
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
     <div class="row">
         <header class="intro-header">
             <div class="container">
                 <div class="site-heading text-center">
                     <div class="about-me">
                         <!--移动端头部显示-->
-                        <img src="/img/avatar-hux.jpg" />
+                        <img src="/img/avatar-hux.jpg"/>
                         <h5><a href="/about/">Thankuu (Retro)</a></h5>
                         <p>年少无知，无勇有谋</p>
                     </div>
@@ -252,7 +258,7 @@
             </div>
         </header>
     </div>
-    </div>
+</div>
 <!-- Main Content -->
 <div class="container custom-haojen-container">
     <!-- Post Container -->
@@ -261,21 +267,24 @@
             <!-- Main Content -->
 
 
-    
-        <div class="post-preview " style="background-image: url('/img/post-default-min.jpg')">
-    <a href="/2016/08/15/搭建Django应用（一）/">
+
+<div class="post-preview"
+     style="background-image: url('/img/post-default-min.jpg')">
+    <a href="/2016/08/15/PHP安全 - SQL防注入/">
         <h2 class="post-title">
-            搭建Django应用（一）
+            PHP安全 - SQL防注入
         </h2>
         <p class="post-meta">
-            2016-08-15
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2016-08-15
         </p>
         
         <div class="post-content-preview">
             <p>
-                python安装作为一个Python Web框架，Django需要Python 。 它适用Python 2.7、3.2、3.3和3.4。osx自带了python2.7版本，如果需要安装更高版本的python，可以通过brew安装：
-$ brew install python3
-$ python...
+                1、表单校验
+这部分其实和安全关系不大，个人理解表单校验只是为了防止用户在前端直接调用接口来绕过前端的表单验证。而通常将针对获取到的表单进行校验，这部分功能目前一般在所有框架中都具备有，以CodeIgniter举例,官方给的示例是：
+public function index()
+{
+    ...
             </p>
         </div>
     </a>
@@ -285,22 +294,23 @@ $ python...
 <hr>
 
 
-    
-        <div class="post-preview " style="background-image: url('/img/post-default-min.jpg')">
-    <a href="/2016/08/15/PHP安全 - SQL防注入/">
+
+<div class="post-preview"
+     style="background-image: url('/img/post-default-min.jpg')">
+    <a href="/2016/08/15/搭建Django应用（一）/">
         <h2 class="post-title">
-            PHP安全 - SQL防注入
+            搭建Django应用（一）
         </h2>
         <p class="post-meta">
-            2016-08-15
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2016-08-15
         </p>
         
         <div class="post-content-preview">
             <p>
-                1、表单校验这部分其实和安全关系不大，个人理解表单校验只是为了防止用户在前端直接调用接口来绕过前端的表单验证。而通常将针对获取到的表单进行校验，这部分功能目前一般在所有框架中都具备有，以CodeIgniter举例,官方给的示例是：
-public function index()
-{
-    $...
+                python安装
+作为一个Python Web框架，Django需要Python 。 它适用Python 2.7、3.2、3.3和3.4。osx自带了python2.7版本，如果需要安装更高版本的python，可以通过brew安装：
+    $ brew install python3
+   ...
             </p>
         </div>
     </a>
@@ -321,8 +331,8 @@ public function index()
 
 
         </div>
-    <!-- Sidebar Container -->
-            <div class="
+        <!-- Sidebar Container -->
+        <div class="
                 col-lg-3 col-lg-offset-0
                 col-md-3 col-md-offset-0
                 col-sm-12
@@ -330,69 +340,92 @@ public function index()
                 sidebar-container
             ">
 
-                <!-- About Me -->
-                <section class="visible-md visible-lg" style="padding: 0 18px">
-                    <div class="short-about">
-                        <!--侧边栏头像-->
+            <!-- About Me -->
+            <section class="visible-md visible-lg" style="padding: 0 18px">
+                <div class="short-about">
+                    <!--侧边栏头像-->
+                    
+                    <img src="/img/avatar-hux.jpg"/>
+                    
+                    <h5><a href="/about/">Thankuu (Retro)</a></h5>
+                    
+                    <p>年少无知，无勇有谋</p>
+                    
+                    <hr>
+                    <!-- SNS Link 社交 -->
+                    <ul class="list-inline">
                         
-                            <img src="/img/avatar-hux.jpg" />
                         
-                        <h5><a href="/about/">Thankuu (Retro)</a></h5>
                         
-                            <p>年少无知，无勇有谋</p>
+
                         
-                        <hr>
-                        <!-- SNS Link 社交 -->
-                        <ul class="list-inline">
-                            
-                            
-                            
+                        <li>
+                            <a target="_blank" href="http://weibo.com/孤独深邃症患者">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                            </a>
+                        </li>
+                        
 
-                            
+                        
 
-                            
+                        
+                        <li>
+                            <a target="_blank" href="https://github.com/thankuu">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                            </a>
+                        </li>
+                        
 
-                            
+                        
+                    </ul>
+                </div>
+            </section>
 
+            <!-- Featured Tags  标签 -->
+            
+            <section>
+                <div class="tags">
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+            </section>
+            
 
-                            
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Featured Tags  标签 -->
+            
+            <hr>
+            <h5 style="text-align: center;">Friends</h5>
+            <ul class="list-inline" style="text-align: center;">
                 
-                <section>
-                    <div class="tags">
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                    </div>
-                </section>
+                <li><a href="https://haojen.github.io/" target="_blank">haojen&#39;s Blog</a></li>
                 
+            </ul>
+            
 
-                
-
-            </div>
+        </div>
     </div>
 </div>
 
-
-    <!-- Footer -->
-    <!-- Footer -->
+<!-- Footer -->
+<!-- Footer -->
 <footer>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
-                <span class="text-muted"style="font-size: 14px">双击导航条返回顶部</span>
                 <br>
                 <ul class="list-inline text-center">
                 
@@ -400,9 +433,27 @@ public function index()
                 
 
                 
+                    <li>
+                        <a target="_blank" href="http://weibo.com/孤独深邃症患者">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
 
                 
 
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/thankuu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -429,7 +480,6 @@ public function index()
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/blog.js"></script>
-
 
 <!-- async load function -->
 <script>
@@ -459,7 +509,7 @@ public function index()
 
 <!--fastClick.js -->
 <script>
-    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })
@@ -484,8 +534,8 @@ public function index()
 
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-    <!--wechat title img-->
-    <img class="wechat-title-img" src="/img/avatar-hux.jpg">
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar-hux.jpg">
 </body>
 
 </html>

@@ -24,6 +24,10 @@ root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
+# Featured Tags
+featured-tags: ture                     # whether or not using Feature-Tags
+featured-condition-size: 3              # A tag will be featured if the size of it is more than this condition value
+
 # Directory
 source_dir: source
 public_dir: public
@@ -53,7 +57,20 @@ highlight:
 anchorjs: false                        # if you want to customize anchor. check out line:181 of `post.html`
 
 post-default-img: /img/post-default.jpg
+
 post-default-img-mobile: /img/post-default-min.jpg #移动端显示的图片
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+
+markdown:
+  plugins:
+    - markdown-it-abbr
+    - markdown-it-footnote
+    - markdown-it-ins
+    - markdown-it-sub
+    - markdown-it-sup
+    - markdown-it-emoji
 
 # Category & Tag
 default_category: uncategorized
@@ -90,25 +107,25 @@ duoshuo_username:  thankuu # 你的多说帐号
 # Share component is depend on Comment so we can NOT use share only.
 duoshuo_share: true                     # set to false if you want to use Comment without Sharing
 
-# Featured Tags
-featured-tags: true                     # whether or not using Feature-Tags
-featured-condition-size: 6              # A tag will be featured if the size of it is more than this condition value
+
 
 #favicon
 favicon: /favicon.ico
+
 # Sidebar settings
 sidebar: true
 sidebar-about-description: "年少无知，无勇有谋"
 sidebar-avatar: /img/avatar-hux.jpg
+
+# SNS settings
+weibo_username: 孤独深邃症患者
+github_username: thankuu
+
 #friend setting
 # 友链, 请务必按以下格式书写
-# friends: [
-#     {
-#         title: "haojen's Blog",
-#         href: "https://haojen.github.io/"
-#     },
-#     {
-#         title: "thankuu(Retro)'s Blog",
-#         href: "http://thankuu.me"
-#     }
-# ]
+friends: [
+    {
+        title: "haojen's Blog",
+        href: "https://haojen.github.io/"
+    }
+]
