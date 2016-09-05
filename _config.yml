@@ -26,7 +26,7 @@ permalink_defaults:
 
 # Featured Tags
 featured-tags: ture                     # whether or not using Feature-Tags
-featured-condition-size: 3              # A tag will be featured if the size of it is more than this condition value
+featured-condition-size: 0              # A tag will be featured if the size of it is more than this condition value
 
 # Directory
 source_dir: source
