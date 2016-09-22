@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thankuu.me/"/>
-  <updated>2016-08-15T06:55:09.000Z</updated>
+  <updated>2016-09-22T06:56:25.000Z</updated>
   <id>http://thankuu.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://thankuu.me/2016/08/15/PHP%E5%AE%89%E5%85%A8%20-%20SQL%E9%98%B2%E6%B3%A8%E5%85%A5/"/>
     <id>http://thankuu.me/2016/08/15/PHP安全 - SQL防注入/</id>
     <published>2016-08-15T06:55:09.000Z</published>
-    <updated>2016-08-15T06:55:09.000Z</updated>
+    <updated>2016-09-22T06:56:25.000Z</updated>
     
     <content type="html">&lt;h3&gt;1、表单校验&lt;/h3&gt;
 &lt;p&gt;这部分其实和安全关系不大，个人理解表单校验只是为了防止用户在前端直接调用接口来绕过前端的表单验证。而通常将针对获取到的表单进行校验，这部分功能目前一般在所有框架中都具备有，以&lt;code&gt;CodeIgniter&lt;/code&gt;举例,官方给的示例是：&lt;/p&gt;

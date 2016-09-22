@@ -24,6 +24,9 @@ root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
+# qiniu
+cdn-url: http://odw7l80n0.bkt.clouddn.com/
+
 # Featured Tags
 featured-tags: ture                     # whether or not using Feature-Tags
 featured-condition-size: 0              # A tag will be featured if the size of it is more than this condition value
@@ -56,9 +59,9 @@ highlight:
 # Build settings
 anchorjs: false                        # if you want to customize anchor. check out line:181 of `post.html`
 
-post-default-img: /img/post-default.jpg
+post-default-img: http://odw7l80n0.bkt.clouddn.com/page-piano.png
 
-post-default-img-mobile: /img/post-default-min.jpg #移动端显示的图片
+post-default-img-mobile: http://odw7l80n0.bkt.clouddn.com/pag-piano-min.png #移动端显示的图片
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
