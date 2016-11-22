@@ -117,11 +117,11 @@ favicon: /favicon.ico
 
 # Sidebar settings
 sidebar: true
-sidebar-about-description: "年少无知，无勇有谋"
+sidebar-about-description: "想法多于实现"
 sidebar-avatar: /img/avatar-hux.jpg
 
 # SNS settings
-weibo_username: 孤独深邃症患者
+weibo_username: 3302668683
 github_username: thankuu
 
 #friend setting
