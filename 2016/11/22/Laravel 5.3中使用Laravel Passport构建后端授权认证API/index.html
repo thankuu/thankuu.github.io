@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        PHP安全 - SQL防注入｜Thankuu&#39;s blog
+        Laravel 5.3中使用Laravel Passport构建后端授权认证API｜Thankuu&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://thankuu.me/2016/08/15/PHP安全 - SQL防注入/">
+    <link rel="canonical" href="http://thankuu.me/2016/11/22/Laravel 5.3中使用Laravel Passport构建后端授权认证API/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -148,24 +148,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>PHP安全 - SQL防注入</h1>
+                    <h1>Laravel 5.3中使用Laravel Passport构建后端授权认证API</h1>
                     
                     <span class="meta">
                          作者 Thankuu (Retro)
                         <span>
-                          日期 2016-08-15
+                          日期 2016-11-22
                          </span>
                     </span>
                     <div class="tags text-center">
                         
+                        <a class="tag" href="/tags/#laravel"
+                           title="laravel">laravel</a>
+                        
                         <a class="tag" href="/tags/#php"
                            title="php">php</a>
-                        
-                        <a class="tag" href="/tags/#安全"
-                           title="安全">安全</a>
-                        
-                        <a class="tag" href="/tags/#CodeIgniter"
-                           title="CodeIgniter">CodeIgniter</a>
                         
                     </div>
                 </div>
@@ -174,7 +171,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            PHP安全 - SQL防注入
+            Laravel 5.3中使用Laravel Passport构建后端授权认证API
         </span>
     </div>
 </header>
@@ -185,67 +182,161 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h3>1、表单校验</h3>
-<p>这部分其实和安全关系不大，个人理解表单校验只是为了防止用户在前端直接调用接口来绕过前端的表单验证。而通常将针对获取到的表单进行校验，这部分功能目前一般在所有框架中都具备有，以<code>CodeIgniter</code>举例,官方给的示例是：</p>
-<pre><code>public function index()
+                <p>Laravel在5.3中引入了新的官方OAuth扩展Laravel Passport，之前在5.1/5.2时一直是用dingo+jwt这一套来构建后端api，最近正好要构建新项目，想着试试官方这一个拓展如何。</p>
+<h2>安装</h2>
+<p>官方文档中有完整的安装调用过程，使用composer：</p>
+<pre><code>composer require laravel/passport
+</code></pre>
+<p>像使用其他组件一样，我们需要在<code>config/app/php</code>的<code>providers</code>数组中注册Passport：</p>
+<pre><code>Laravel\Passport\PassportServiceProvider::class,
+</code></pre>
+<p>然后我们需要执行<code>migrate</code>创建相关的客户端数据表和令牌数据表,和<code>passport:install</code>来生成一些加密秘钥等，这些在官方文档中都有详细介绍。</p>
+<h2>构建认证函数</h2>
+<p>官方文档中针对如何简单使用做了初步介绍，下面我试着构造一个完整的客户端授权流程，首先创建<code>ApiController</code>：</p>
+<pre><code>php artisen make:controller Apicontroller
+</code></pre>
+<p>在<code>ApiController</code>中引入<code>AuthenticatesUsers</code>模块：</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+
+class ApiController extends Controller
 {
-    $this-&gt;load-&gt;helper(array('form', 'url'));
+    use  AuthenticatesUsers;
 
-    $this-&gt;load-&gt;library('form_validation');
-
-    $this-&gt;form_validation-&gt;set_rules('username', 'Username', 'callback_username_check');
-
-$this-&gt;form_validation-&gt;set_rules('password', 'Password', 'required');
-
-    $this-&gt;form_validation-&gt;set_rules('passconf', 'Password Confirmation', 'required');
-
-$this-&gt;form_validation-&gt;set_rules('email', 'Email', 'required|is_unique[users.email]');
-
-    if ($this-&gt;form_validation-&gt;run() == FALSE)
+public function __construct()
 {
-    $this-&gt;load-&gt;view('myform');
+    $this-&gt;middleware('api');
 }
-else
+</code></pre>
+<p>我们的客户端需要通过密码授权的方式来认证，我们需要在<code>ApiController</code>中重写<code>AuthenticatesUsers</code>部分功能函数来实现整个完整的授权流程,在这里我们调用Passport提供的<code>oauth/token</code>接口：</p>
+<pre><code>//调用认证接口获取授权码
+protected function authenticateClient(Request $request)
 {
-    $this-&gt;load-&gt;view('formsuccess');
+    $credentials = $this-&gt;credentials($request);
+
+    $data = $request-&gt;all();
+
+    $request-&gt;request-&gt;add([
+        'grant_type' =&gt; $data['grant_type'],
+        'client_id' =&gt; $data['client_id'],
+        'client_secret' =&gt; $data['client_secret'],
+        'username' =&gt; $credentials['phone'],
+        'password' =&gt; $credentials['password'],
+        'scope' =&gt; ''
+    ]);
+
+    $proxy = Request::create(
+        'oauth/token',
+        'POST'
+    );
+
+    $response = \Route::dispatch($proxy);
+
+    return $response;
+}
+//以下为重写部分
+protected function authenticated(Request $request)
+{
+    return $this-&gt;authenticateClient($request);
+}
+
+protected function sendLoginResponse(Request $request)
+{
+    $this-&gt;clearLoginAttempts($request);
+
+    return $this-&gt;authenticated($request);
+}
+
+protected function sendFailedLoginResponse(Request $request)
+{
+    $msg = $request['errors'];
+    $code = $request['code'];
+    return $this-&gt;failed($msg,$code);
+}
+</code></pre>
+<p>在这里我们会遇到一个问题，官方文档中没有提及，就是我们要如何使用自定的用户名进行授权，找寻源码，其实在<code>Laravel\Passport\Bridge\UserRepository.php</code>的<code>getUserEntityByUserCredentials()</code>函数中会看到这段代码：</p>
+<pre><code>if (method_exists($model, 'findForPassport')) {
+    $user = (new $model)-&gt;findForPassport($username);
+} else {
+    $user = (new $model)-&gt;where('email', $username)-&gt;first();
+}
+</code></pre>
+<p>我们只需要在我们配置在config/auth.php的模型中添加这段代码就可以完成自定义授权用户名：</p>
+<pre><code> public function findForPassport($username) {
+    return $this-&gt;where('phone', $username)-&gt;first();
+}
+</code></pre>
+<p>这样一个授权流程基本完成，接下来创建一个<code>Api/LoginController</code>:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\ApiController;
+use Illuminate\Http\Request;
+use App\Models\User;                \\User.php我移动到了Models目录
+use Validator;
+
+class LoginController extends ApiController
+{
+    // 登录用户名标示为phone字段
+    public function username()
+    {
+        return 'phone';
+    }
+    //登录接口，调用了ApiController中一些其他函数succeed\failed，上文未提及，用于接口格式化输出
+    public function login(Request $request)
+{
+    $validator = Validator::make($request-&gt;all(), [
+        'phone'    =&gt; 'required|exists:users',
+        'password' =&gt; 'required|between:6,32',
+        ]);
+
+        if ($validator-&gt;fails()) {
+        $request-&gt;request-&gt;add([
+            'errors' =&gt; $validator-&gt;errors()-&gt;toArray(),
+            'code' =&gt; 401,
+            ]);                     
+        return $this-&gt;sendFailedLoginResponse($request);
+    }
+
+    $credentials = $this-&gt;credentials($request);
+
+    if ($this-&gt;guard('api')-&gt;attempt($credentials, $request-&gt;has('remember'))) {
+        return $this-&gt;sendLoginResponse($request);
+    }
+
+    return $this-&gt;failed('login failed',401);
     }
 }
 </code></pre>
-<p>这种方式的目的就是将前端传过来的数据进行初步校验，校验的方式一般有特殊校验（邮箱，密码，日期）和一般校验（是否必填）等等，通过这个方式可以对前端的数据进行格式以及类型的初步校验，检验其变量格式和类型，（预格式化数据）是否包含HTML代码等，对数据进行过滤。</p>
-<h3>2、过滤特殊符号</h3>
-<p>在所有攻击中，可以通过对表单数据过滤特殊符号<code>\ , ' , &quot;</code>来预防SQL注入攻击。假设我们可以通过这样一个链接<code>http://dev.com/index.php?user_name=thankuu</code>向服务器请求这个用户的信息，如果<code>username</code>是合法的，那么服务器会执行这样的SQL语句：</p>
-<pre><code>SELECT uid,user_info FROM table.user WHERE username=`thankuu`;
+<h2>构建路由</h2>
+<p>最后<code>routes/api.php</code>中加入我们需要的路由：</p>
+<pre><code>Route::group([
+    'prefix'=&gt;'/v1',
+    'middleware' =&gt; ['api']
+], function () {
+    Route::post('/user/login','Api\LoginController@login');
+});
 </code></pre>
-<p>但是，如果我们在向服务器请求的内容中加入这样的内容：<code>thankuu' UNION SELECT username,password FROM table.user--</code>，那么服务器最终会执行的SQL语句将会变为：</p>
-<pre><code>SELECT uid,user_info FROM table.user WHERE username=`thankuu` UNION SELECT username,password FROM table.user-- ;
-</code></pre>
-<p>执行的结果就是将所有用户的用户名和对应的密码全部输出返回。同理，我们也可以使用类似的方法跳过网站的用户密码验证，只用知道正确的用户名就可以登录网站。</p>
-<p>为了防范这种方式的注入以及插入<code>&lt;script&gt;</code>脚本代码，我们可以在php代码中使用<code>addslashes</code>函数，将以上特殊符号进行转意，并将原有SQL语句：</p>
-<pre><code>SELECT * FROM table WHERE var={$var};
-</code></pre>
-<p>替换成</p>
-<pre><code>SELECT * FROM table WHERE var='{$var}';
-</code></pre>
-<p>我们的SQL语句中带有单引号，所以要想用户执行注入时就必须反引号，但是我们在接受数据时，将原有数据中的特殊符号进行了转意，那么用户插入的特殊符号将会转意成<code>\\,\',\&quot;</code>,，所以想要执行的注入攻击就会失效。</p>
-<h3>3、绑定变量，使用预编译语句</h3>
-<p>MySQL的mysqli驱动提供了预编译语句的支持，不同的程序语言，都分别有使用预编译语句的方法，现代PHP框架中，使用ORM（关系数据模型）都基本具备了预编译。CodeIgniter的AR防注入能力还是很不错的,使用ORM可以有效防止注入，如果执行的SQL较为复杂，需要书写原生SQL时可以采用参数绑定的方法：</p>
-<pre><code>$sql = &quot;SELECT * FROM table WHERE var=? and var2=?&quot;;
-
-$result = $this-&gt;db-&gt;query($sql,array($array1,$array2))-&gt;result_array();
-</code></pre>
-<p>更多使用方法可以参考官方使用手册。</p>
+<h2>测试</h2>
+<p>最后在postmen中调用接口：
+<img src="http://static.zybuluo.com/thankuu/gcptj01cj4f3zk3mtrnbm82k/image_1b2543doiq521a5c17lh1h3k14ve9.png" alt="image_1b2543doiq521a5c17lh1h3k14ve9.png-81.7kB"></p>
+<p>结果正确返回。</p>
 
                 <hr>
                 
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                      style="text-align: right"
-                     data-thread-key="2016/08/15/PHP安全 - SQL防注入/"
-                     data-title="PHP安全 - SQL防注入"
-                     data-url="http://thankuu.me/2016/08/15/PHP安全 - SQL防注入/"
+                     data-thread-key="2016/11/22/Laravel 5.3中使用Laravel Passport构建后端授权认证API/"
+                     data-title="Laravel 5.3中使用Laravel Passport构建后端授权认证API"
+                     data-url="http://thankuu.me/2016/11/22/Laravel 5.3中使用Laravel Passport构建后端授权认证API/"
                      data-images=""
-                     data-content="1、表单校验
-这部分其实和安全关系不大，个人理解表单校验只是为了防止用户在前端直接调用接口来绕... | Thankuu&#39;s blog ">
+                     data-content="Laravel在5.3中引入了新的官方OAuth扩展Laravel Passport，之前在5... | Thankuu&#39;s blog ">
                     <div class="ds-share-inline">
                         <ul class="ds-share-icons-16">
                             <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -263,15 +354,10 @@ $result = $this-&gt;db-&gt;query($sql,array($array1,$array2))-&gt;result_array()
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/ 2016/11/22/Laravel 5.3中使用Laravel Passport构建后端授权认证API/" data-toggle="tooltip" data-placement="top"
-                           title="Laravel 5.3中使用Laravel Passport构建后端授权认证API">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/ 2016/08/15/搭建Django应用（一）/" data-toggle="tooltip" data-placement="top"
-                           title="搭建Django应用（一）">Next Post &rarr;</a>
+                        <a href="/ 2016/08/15/PHP安全 - SQL防注入/" data-toggle="tooltip" data-placement="top"
+                           title="PHP安全 - SQL防注入">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -280,9 +366,9 @@ $result = $this-&gt;db-&gt;query($sql,array($array1,$array2))-&gt;result_array()
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                         data-thread-key="2016/08/15/PHP安全 - SQL防注入/"
-                         data-title="PHP安全 - SQL防注入"
-                         data-url="http://thankuu.me/2016/08/15/PHP安全 - SQL防注入/">
+                         data-thread-key="2016/11/22/Laravel 5.3中使用Laravel Passport构建后端授权认证API/"
+                         data-title="Laravel 5.3中使用Laravel Passport构建后端授权认证API"
+                         data-url="http://thankuu.me/2016/11/22/Laravel 5.3中使用Laravel Passport构建后端授权认证API/">
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -294,7 +380,7 @@ $result = $this-&gt;db-&gt;query($sql,array($array1,$array2))-&gt;result_array()
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-text">1、表单校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-text">2、过滤特殊符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-text">3、绑定变量，使用预编译语句</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">构建认证函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">构建路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">测试</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -316,14 +402,11 @@ $result = $this-&gt;db-&gt;query($sql,array($array1,$array2))-&gt;result_array()
                     </h5>
                     <div class="tags">
                         
+                        <a class="tag" href="/tags/#laravel"
+                           title="laravel">laravel</a>
+                        
                         <a class="tag" href="/tags/#php"
                            title="php">php</a>
-                        
-                        <a class="tag" href="/tags/#安全"
-                           title="安全">安全</a>
-                        
-                        <a class="tag" href="/tags/#CodeIgniter"
-                           title="CodeIgniter">CodeIgniter</a>
                         
                     </div>
                 </section>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thankuu.me/"/>
-  <updated>2016-09-22T06:56:25.000Z</updated>
+  <updated>2016-11-22T05:08:00.000Z</updated>
   <id>http://thankuu.me/</id>
   
   <author>
@@ -14,6 +14,174 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Laravel 5.3中使用Laravel Passport构建后端授权认证API</title>
+    <link href="http://thankuu.me/2016/11/22/Laravel%205.3%E4%B8%AD%E4%BD%BF%E7%94%A8Laravel%20Passport%E6%9E%84%E5%BB%BA%E5%90%8E%E7%AB%AF%E6%8E%88%E6%9D%83%E8%AE%A4%E8%AF%81API/"/>
+    <id>http://thankuu.me/2016/11/22/Laravel 5.3中使用Laravel Passport构建后端授权认证API/</id>
+    <published>2016-11-22T04:19:32.000Z</published>
+    <updated>2016-11-22T05:08:00.000Z</updated>
+    
+    <content type="html">&lt;p&gt;Laravel在5.3中引入了新的官方OAuth扩展Laravel Passport，之前在5.1/5.2时一直是用dingo+jwt这一套来构建后端api，最近正好要构建新项目，想着试试官方这一个拓展如何。&lt;/p&gt;
+&lt;h2&gt;安装&lt;/h2&gt;
+&lt;p&gt;官方文档中有完整的安装调用过程，使用composer：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;composer require laravel/passport
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;像使用其他组件一样，我们需要在&lt;code&gt;config/app/php&lt;/code&gt;的&lt;code&gt;providers&lt;/code&gt;数组中注册Passport：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Laravel\Passport\PassportServiceProvider::class,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后我们需要执行&lt;code&gt;migrate&lt;/code&gt;创建相关的客户端数据表和令牌数据表,和&lt;code&gt;passport:install&lt;/code&gt;来生成一些加密秘钥等，这些在官方文档中都有详细介绍。&lt;/p&gt;
+&lt;h2&gt;构建认证函数&lt;/h2&gt;
+&lt;p&gt;官方文档中针对如何简单使用做了初步介绍，下面我试着构造一个完整的客户端授权流程，首先创建&lt;code&gt;ApiController&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;php artisen make:controller Apicontroller
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在&lt;code&gt;ApiController&lt;/code&gt;中引入&lt;code&gt;AuthenticatesUsers&lt;/code&gt;模块：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+
+class ApiController extends Controller
+{
+    use  AuthenticatesUsers;
+
+public function __construct()
+{
+    $this-&amp;gt;middleware(&#39;api&#39;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们的客户端需要通过密码授权的方式来认证，我们需要在&lt;code&gt;ApiController&lt;/code&gt;中重写&lt;code&gt;AuthenticatesUsers&lt;/code&gt;部分功能函数来实现整个完整的授权流程,在这里我们调用Passport提供的&lt;code&gt;oauth/token&lt;/code&gt;接口：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//调用认证接口获取授权码
+protected function authenticateClient(Request $request)
+{
+    $credentials = $this-&amp;gt;credentials($request);
+
+    $data = $request-&amp;gt;all();
+
+    $request-&amp;gt;request-&amp;gt;add([
+        &#39;grant_type&#39; =&amp;gt; $data[&#39;grant_type&#39;],
+        &#39;client_id&#39; =&amp;gt; $data[&#39;client_id&#39;],
+        &#39;client_secret&#39; =&amp;gt; $data[&#39;client_secret&#39;],
+        &#39;username&#39; =&amp;gt; $credentials[&#39;phone&#39;],
+        &#39;password&#39; =&amp;gt; $credentials[&#39;password&#39;],
+        &#39;scope&#39; =&amp;gt; &#39;&#39;
+    ]);
+
+    $proxy = Request::create(
+        &#39;oauth/token&#39;,
+        &#39;POST&#39;
+    );
+
+    $response = \Route::dispatch($proxy);
+
+    return $response;
+}
+//以下为重写部分
+protected function authenticated(Request $request)
+{
+    return $this-&amp;gt;authenticateClient($request);
+}
+
+protected function sendLoginResponse(Request $request)
+{
+    $this-&amp;gt;clearLoginAttempts($request);
+
+    return $this-&amp;gt;authenticated($request);
+}
+
+protected function sendFailedLoginResponse(Request $request)
+{
+    $msg = $request[&#39;errors&#39;];
+    $code = $request[&#39;code&#39;];
+    return $this-&amp;gt;failed($msg,$code);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在这里我们会遇到一个问题，官方文档中没有提及，就是我们要如何使用自定的用户名进行授权，找寻源码，其实在&lt;code&gt;Laravel\Passport\Bridge\UserRepository.php&lt;/code&gt;的&lt;code&gt;getUserEntityByUserCredentials()&lt;/code&gt;函数中会看到这段代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if (method_exists($model, &#39;findForPassport&#39;)) {
+    $user = (new $model)-&amp;gt;findForPassport($username);
+} else {
+    $user = (new $model)-&amp;gt;where(&#39;email&#39;, $username)-&amp;gt;first();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们只需要在我们配置在config/auth.php的模型中添加这段代码就可以完成自定义授权用户名：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; public function findForPassport($username) {
+    return $this-&amp;gt;where(&#39;phone&#39;, $username)-&amp;gt;first();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这样一个授权流程基本完成，接下来创建一个&lt;code&gt;Api/LoginController&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\ApiController;
+use Illuminate\Http\Request;
+use App\Models\User;                \\User.php我移动到了Models目录
+use Validator;
+
+class LoginController extends ApiController
+{
+    // 登录用户名标示为phone字段
+    public function username()
+    {
+        return &#39;phone&#39;;
+    }
+    //登录接口，调用了ApiController中一些其他函数succeed\failed，上文未提及，用于接口格式化输出
+    public function login(Request $request)
+{
+    $validator = Validator::make($request-&amp;gt;all(), [
+        &#39;phone&#39;    =&amp;gt; &#39;required|exists:users&#39;,
+        &#39;password&#39; =&amp;gt; &#39;required|between:6,32&#39;,
+        ]);
+
+        if ($validator-&amp;gt;fails()) {
+        $request-&amp;gt;request-&amp;gt;add([
+            &#39;errors&#39; =&amp;gt; $validator-&amp;gt;errors()-&amp;gt;toArray(),
+            &#39;code&#39; =&amp;gt; 401,
+            ]);                     
+        return $this-&amp;gt;sendFailedLoginResponse($request);
+    }
+
+    $credentials = $this-&amp;gt;credentials($request);
+
+    if ($this-&amp;gt;guard(&#39;api&#39;)-&amp;gt;attempt($credentials, $request-&amp;gt;has(&#39;remember&#39;))) {
+        return $this-&amp;gt;sendLoginResponse($request);
+    }
+
+    return $this-&amp;gt;failed(&#39;login failed&#39;,401);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;构建路由&lt;/h2&gt;
+&lt;p&gt;最后&lt;code&gt;routes/api.php&lt;/code&gt;中加入我们需要的路由：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Route::group([
+    &#39;prefix&#39;=&amp;gt;&#39;/v1&#39;,
+    &#39;middleware&#39; =&amp;gt; [&#39;api&#39;]
+], function () {
+    Route::post(&#39;/user/login&#39;,&#39;Api\LoginController@login&#39;);
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;测试&lt;/h2&gt;
+&lt;p&gt;最后在postmen中调用接口：
+&lt;img src=&quot;http://static.zybuluo.com/thankuu/gcptj01cj4f3zk3mtrnbm82k/image_1b2543doiq521a5c17lh1h3k14ve9.png&quot; alt=&quot;image_1b2543doiq521a5c17lh1h3k14ve9.png-81.7kB&quot;&gt;&lt;/p&gt;
+&lt;p&gt;结果正确返回。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Laravel在5.3中引入了新的官方OAuth扩展Laravel Passport，之前在5.1/5.2时一直是用dingo+jwt这一套来构建后端api，最近正好要构建新项目，想着试试官方这一个拓展如何。&lt;/p&gt;
+&lt;h2&gt;安装&lt;/h2&gt;
+&lt;p&gt;官方文档中有完整的安装调用
+    
+    </summary>
+    
+    
+      <category term="laravel" scheme="http://thankuu.me/tags/laravel/"/>
+    
+      <category term="php" scheme="http://thankuu.me/tags/php/"/>
+    
+  </entry>
   
   <entry>
     <title>PHP安全 - SQL防注入</title>
